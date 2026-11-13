@@ -1,0 +1,15 @@
+{
+	"schemaVersion": 1,
+	"id": "jarvis-test",
+	"version": "1.0.0",
+	"name": "Jarvis Test",
+	"environment": "client",
+	"entrypoints": {
+		"fabric-client-gametest": [
+			"de.lennard.jarvis.JarvisClientTest"
+		]
+	},
+	"depends": {
+		"jarvis": "*"
+	}
+}

@@ -1,0 +1,259 @@
+[
+	{
+		"type": "function",
+		"function": {
+			"name": "set_gamemode",
+			"description": "Stellt den Spielmodus des Spielers um, wenn er das verlangt.",
+			"parameters": {
+				"type": "object",
+				"properties": {
+					"mode": {
+						"type": "string",
+						"enum": [
+							"survival",
+							"creative",
+							"adventure",
+							"spectator"
+						]
+					}
+				},
+				"required": [
+					"mode"
+				]
+			}
+		}
+	},
+	{
+		"type": "function",
+		"function": {
+			"name": "web_search",
+			"description": "Sucht im Internet. Für alles Aktuelle: Nachrichten, Personen, Preise, Ergebnisse, Fakten, die du nicht sicher weißt.",
+			"parameters": {
+				"type": "object",
+				"properties": {
+					"query": {
+						"type": "string",
+						"description": "Suchbegriffe"
+					}
+				},
+				"required": [
+					"query"
+				]
+			}
+		}
+	},
+	{
+		"type": "function",
+		"function": {
+			"name": "get_weather",
+			"description": "Wetter jetzt und morgen für einen Ort.",
+			"parameters": {
+				"type": "object",
+				"properties": {
+					"location": {
+						"type": "string",
+						"description": "Ort, z.B. Berlin"
+					}
+				},
+				"required": [
+					"location"
+				]
+			}
+		}
+	},
+	{
+		"type": "function",
+		"function": {
+			"name": "calculate",
+			"description": "Rechnet einen Ausdruck mit + - * / ^ und Klammern exakt aus.",
+			"parameters": {
+				"type": "object",
+				"properties": {
+					"expression": {
+						"type": "string",
+						"description": "z.B. 17*23"
+					}
+				},
+				"required": [
+					"expression"
+				]
+			}
+		}
+	},
+	{
+		"type": "function",
+		"function": {
+			"name": "run_command",
+			"description": "Sendet einen Minecraft-Command als der Spieler und liefert die Antwort des Servers.",
+			"parameters": {
+				"type": "object",
+				"properties": {
+					"command": {
+						"type": "string",
+						"description": "Command, z.B. /home oder /time set day"
+					}
+				},
+				"required": [
+					"command"
+				]
+			}
+		}
+	},
+	{
+		"type": "function",
+		"function": {
+			"name": "send_chat",
+			"description": "Schreibt als der Spieler eine öffentliche Nachricht in den Chat. Nur nutzen, wenn er das ausdrücklich will.",
+			"parameters": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message"
+				]
+			}
+		}
+	},
+	{
+		"type": "function",
+		"function": {
+			"name": "list_inventory",
+			"description": "Listet das Inventar des Spielers, auch den Inhalt von Shulkern.",
+			"parameters": {
+				"type": "object",
+				"properties": {}
+			}
+		}
+	},
+	{
+		"type": "function",
+		"function": {
+			"name": "read_chat",
+			"description": "Liest die letzten Chatzeilen.",
+			"parameters": {
+				"type": "object",
+				"properties": {},
+				"required": []
+			}
+		}
+	},
+	{
+		"type": "function",
+		"function": {
+			"name": "list_shaders",
+			"description": "Listet die installierten Shader.",
+			"parameters": {
+				"type": "object",
+				"properties": {},
+				"required": []
+			}
+		}
+	},
+	{
+		"type": "function",
+		"function": {
+			"name": "set_shader",
+			"description": "Schaltet Shader ein oder aus und wählt optional ein Paket.",
+			"parameters": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "Teil des Paketnamens, z.B. bsl oder complementary. Leer = letztes Paket"
+					},
+					"enabled": {
+						"type": "boolean",
+						"description": "true = an, false = aus"
+					}
+				},
+				"required": [
+					"enabled"
+				]
+			}
+		}
+	},
+	{
+		"type": "function",
+		"function": {
+			"name": "list_servers",
+			"description": "Zeigt den aktuellen Server und die gespeicherte Serverliste.",
+			"parameters": {
+				"type": "object",
+				"properties": {},
+				"required": []
+			}
+		}
+	},
+	{
+		"type": "function",
+		"function": {
+			"name": "connect_server",
+			"description": "Verlässt die aktuelle Welt und verbindet sich mit einem gespeicherten Server oder einer Adresse. Nur auf ausdrücklichen Wunsch.",
+			"parameters": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "Name aus list_servers oder Adresse"
+					}
+				},
+				"required": [
+					"name"
+				]
+			}
+		}
+	},
+	{
+		"type": "function",
+		"function": {
+			"name": "find_items",
+			"description": "Schlägt im Kistenbuch nach, in welchen Kisten ein Item liegt und wie viel es insgesamt ist.",
+			"parameters": {
+				"type": "object",
+				"properties": {
+					"item": {
+						"type": "string",
+						"description": "Item-Name auf Deutsch oder Englisch, z.B. diamant oder diamond"
+					}
+				},
+				"required": [
+					"item"
+				]
+			}
+		}
+	},
+	{
+		"type": "function",
+		"function": {
+			"name": "mark_chests",
+			"description": "Lässt alle Kisten mit diesem Item in der Welt leuchten.",
+			"parameters": {
+				"type": "object",
+				"properties": {
+					"item": {
+						"type": "string",
+						"description": "Item-Name auf Deutsch oder Englisch, z.B. diamant oder diamond"
+					}
+				},
+				"required": [
+					"item"
+				]
+			}
+		}
+	},
+	{
+		"type": "function",
+		"function": {
+			"name": "clear_chest_marks",
+			"description": "Entfernt alle leuchtenden Markierungen.",
+			"parameters": {
+				"type": "object",
+				"properties": {},
+				"required": []
+			}
+		}
+	}
+]
