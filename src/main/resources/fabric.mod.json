@@ -3,7 +3,7 @@
 	"id": "jarvis",
 	"version": "${version}",
 	"name": "Jarvis Client Assistant",
-	"description": "KI-Assistent, der als dein eigener Spieler handelt.",
+	"description": "AI assistant in your client: answers questions, searches the web and sends commands for you.",
 	"authors": ["Lennard"],
 	"license": "MIT",
 	"environment": "client",

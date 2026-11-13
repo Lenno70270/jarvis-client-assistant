@@ -76,9 +76,9 @@ final class FriendListener {
 
 	String status() {
 		if (!Whisper.installed()) {
-			return "nicht installiert";
+			return net.minecraft.network.chat.Component.translatable("jarvis.menu.recognition.not_installed").getString();
 		}
-		return whisper.running() ? "hört zu" : "aus";
+		return net.minecraft.network.chat.Component.translatable(whisper.running() ? "jarvis.menu.recognition.listening" : "jarvis.menu.recognition.off").getString();
 	}
 
 	/** Kommt alle 20 ms aus Simple Voice Chat: 48 kHz, Mono. */

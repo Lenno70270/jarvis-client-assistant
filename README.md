@@ -5,146 +5,145 @@
 <h1 align="center">Jarvis Client Assistant</h1>
 
 <p align="center">
-  Ein KI-Assistent direkt in deinem Minecraft-Client.<br>
-  Fragen, googeln, Commands schicken und im Voicechat reden, ohne dass der Server die Mod braucht.
+  An AI assistant right inside your Minecraft client.<br>
+  Ask questions, search the web, send commands and talk in voice chat, without the server needing the mod.
 </p>
 
 <p align="center">
   <a href="https://github.com/Lenno70270/jarvis-client-assistant/releases/latest"><img src="https://img.shields.io/github/v/release/Lenno70270/jarvis-client-assistant?label=Download&color=3ddcff" alt="Download"></a>
   <img src="https://img.shields.io/badge/Minecraft-26.2-62B47A" alt="Minecraft 26.2">
   <img src="https://img.shields.io/badge/Loader-Fabric-DBD0B4" alt="Fabric">
-  <img src="https://img.shields.io/badge/Seite-nur%20Client-555" alt="Nur Client">
-  <img src="https://img.shields.io/github/license/Lenno70270/jarvis-client-assistant" alt="Lizenz MIT">
+  <img src="https://img.shields.io/badge/Side-client%20only-555" alt="Client only">
+  <img src="https://img.shields.io/github/license/Lenno70270/jarvis-client-assistant" alt="License MIT">
 </p>
-
-> **English:** A client-side AI assistant for Minecraft. Type `Jarvis ...` in chat or hold **J** and talk. Jarvis
-> answers, searches the web and sends commands for you. Works with any OpenAI-compatible AI service.
 
 ---
 
-Jarvis beantwortet alles wie eine Suchmaschine, redet mit dir und im Voicechat und sendet Commands für dich. Dein
-Spieler bleibt immer bei dir: Jarvis läuft nicht, baut nicht, kämpft nicht und öffnet keine Truhen.
+Jarvis answers anything like a search engine, talks to you and in voice chat, and sends commands for you. Your player
+always stays yours: Jarvis never walks, builds, fights or opens chests.
 
-## Bedienen
+> **Language:** The menu is in English and German, depending on your game language. Jarvis himself currently answers
+> in German, and the local voices and speech recognition are German too.
 
-| Eingabe | Was passiert |
+## How to use
+
+| Input | What happens |
 | --- | --- |
-| `Jarvis ...` im Chat | Nur du siehst das, der Server bekommt die Nachricht nicht |
-| **J** gedrückt halten | Sprechen, Jarvis antwortet mit Stimme |
-| **K** | Menü öffnen, mit Tooltips zu jeder Einstellung |
-| `Jarvis stopp` | Bricht die laufende Antwort ab |
+| `Jarvis ...` in chat | Only you see it, the server never gets the message |
+| Hold **J** | Talk, Jarvis answers with his voice |
+| **K** | Open the menu, with a tooltip for every setting |
+| `Jarvis stopp` | Cancels the current answer |
 
-**Beispiele**
+**Examples**
 
 ```text
-Jarvis erzähl mir einen Witz
+Jarvis erzähl mir einen Witz              (tell me a joke)
 Jarvis wie wird das Wetter morgen in Berlin?
-Jarvis wer ist aktuell Bundeskanzler?
-Jarvis schick mich zum Spawn
-Jarvis /home          ← geht direkt ohne KI und ist dadurch sofort da
-Jarvis mach BSL an
+Jarvis schick mich zum Spawn             (send me to spawn)
+Jarvis /home                             ← runs instantly, without the AI
+Jarvis mach BSL an                       (turn on the BSL shader)
 ```
 
-## Das Menü
+## The menu
 
-Mit **K** öffnest du alle Einstellungen, aufgebaut wie die Sodium-Optionen.
+Press **K** to open all settings, laid out like the Sodium options.
 
-![Jarvis-Menü: Allgemein, KI, Rechte und Voicechat](docs/menue.png)
+![Jarvis menu: General, AI, Permissions and Voice chat](docs/menu.png)
 
-<sub>Screenshots aus dem Spiel: Allgemein, KI, Rechte und Voicechat.</sub>
+<sub>In-game screenshots: General, AI, Permissions and Voice chat.</sub>
 
-## Was er kann
+## What he can do
 
 | | |
 | --- | --- |
-| 💬 **Antworten** | Witze, Wissen, Rat, Gespräche |
-| 🔎 **Googeln** | Websuche über DuckDuckGo, Rückfall auf Wikipedia, Wetter über Open-Meteo, exakter Rechner |
-| ⌨️ **Commands und Chat** | Er liest die Antwort des Servers und korrigiert Fehler selbst |
-| 🎙️ **Voicechat** | Mit Simple Voice Chat hören Spieler in der Nähe Jarvis über deinen Sprachkanal, solange du verbunden und nicht stumm bist |
-| 🖥️ **Client** | Iris-Shader schalten, gespeicherte Server wechseln |
+| 💬 **Answer** | Jokes, knowledge, advice, conversation |
+| 🔎 **Look things up** | Web search via DuckDuckGo with Wikipedia as fallback, weather via Open-Meteo, an exact calculator |
+| ⌨️ **Commands and chat** | Reads the server's reply and fixes mistakes on his own |
+| 🎙️ **Voice chat** | With Simple Voice Chat, nearby players hear Jarvis through your voice channel while you're connected and not muted |
+| 🖥️ **Client** | Switch Iris shaders, switch between saved servers |
 
 ## Installation
 
-1. [Fabric Loader](https://fabricmc.net/use/) für Minecraft 26.2 installieren (Java 25)
-2. [Fabric API](https://modrinth.com/mod/fabric-api) in den `mods`-Ordner legen
-3. `jarvis-client-assistant-….jar` aus den [Releases](https://github.com/Lenno70270/jarvis-client-assistant/releases/latest) dazulegen
-4. KI einrichten (siehe unten)
+1. Install [Fabric Loader](https://fabricmc.net/use/) for Minecraft 26.2 (Java 25)
+2. Put [Fabric API](https://modrinth.com/mod/fabric-api) into your `mods` folder
+3. Add `jarvis-client-assistant-….jar` from the [releases](https://github.com/Lenno70270/jarvis-client-assistant/releases/latest)
+4. Set up the AI (see below)
 
-Optional: [Simple Voice Chat](https://modrinth.com/mod/simple-voice-chat) für Jarvis im Voicechat,
-[Iris](https://modrinth.com/mod/iris) für die Shader-Steuerung.
+Optional: [Simple Voice Chat](https://modrinth.com/mod/simple-voice-chat) so others hear Jarvis,
+[Iris](https://modrinth.com/mod/iris) for shader control.
 
-## KI einrichten
+## Setting up the AI
 
-Die Einstellungen liegen in `config/jarvis.json`:
+The settings live in `config/jarvis.json`:
 
 ```json
 {
-  "baseUrl": "https://dein-anbieter.example/v1",
-  "apiKey": "dein-key",
-  "model": "name-des-modells",
-  "fallbackModels": ["zweites-modell", "drittes-modell"]
+  "baseUrl": "https://your-provider.example/v1",
+  "apiKey": "your-key",
+  "model": "model-name",
+  "fallbackModels": ["second-model", "third-model"]
 }
 ```
 
-Jarvis funktioniert mit jedem OpenAI-kompatiblen Dienst, zum Beispiel einem kommerziellen Anbieter oder einem eigenen
-Server mit LiteLLM, Ollama oder LM Studio. Gebraucht werden `/chat/completions`, für Spracheingabe
-`/audio/transcriptions` und für die Cloud-Stimme `/audio/speech`. Ohne `baseUrl` laufen nur feste Befehle wie
-`Jarvis /home`.
+Jarvis works with any OpenAI-compatible service, for example a commercial provider or your own server with LiteLLM,
+Ollama or LM Studio. He uses `/chat/completions`, `/audio/transcriptions` for voice input and `/audio/speech` for the
+cloud voice. Without a `baseUrl`, only fixed commands like `Jarvis /home` work.
 
-Antwortet ein Modell nicht innerhalb von 1,3 Sekunden oder lehnt ab, startet parallel das nächste. Die erste
-Antwort gewinnt. Fallen alle aus, gehen nur noch feste Befehle wie `Jarvis /home`.
+If a model doesn't answer within 1.3 seconds or refuses, the next one starts in parallel. The first answer wins. If
+all of them fail, only fixed commands like `Jarvis /home` still work.
 
-## Rechte
+## Permissions
 
-Jarvis prüft unsichtbar, ob du in einer Einzelspieler-Welt oder auf einem Server bist und was du dort darfst. Er
-liest dafür nur die Command-Liste, die der Server deinem Client ohnehin schickt. Fehlen dir die Rechte, sperrt er
-Op-Commands wie `/gamemode`, `/give` oder `/tp`, und nichts geht an den Server. Commands wie `/home` oder `/tpa`
-bleiben frei.
+Jarvis quietly checks whether you're in singleplayer or on a server and what you're allowed to do there. He only
+reads the command list the server sends to your client anyway. If you lack the permissions, he blocks operator
+commands like `/gamemode`, `/give` or `/tp`, and nothing is sent to the server. Commands like `/home` or `/tpa` stay
+available.
 
-## Freunde im Voicechat
+## Friends in voice chat
 
-Im Menü unter Voicechat lässt sich „Freunden zuhören" einschalten, standardmäßig ist es aus. Sagt dann jemand im
-Voicechat „Jarvis, ...", antwortet Jarvis über deinen Sprachkanal.
+In the menu under Voice chat you can turn on "Listen to friends". It's off by default. When someone in voice chat
+then says "Jarvis, ...", Jarvis answers through your voice channel.
 
-- Die Erkennung läuft lokal mit [whisper.cpp](https://github.com/ggml-org/whisper.cpp) aus
-  `%LOCALAPPDATA%\Jarvis\whisper`. Stimmen verlassen deinen PC nicht und werden nicht gespeichert.
-- Nur der Satz nach dem Aktivierungswort geht an die KI.
-- Freunde bekommen nur Antworten und Nachschlagen. Commands, Chat, dein Inventar und deine Position sind für sie
-  gesperrt, auch wenn die KI es versuchen sollte.
-- Sag deinen Freunden vorher, dass Jarvis zuhört.
+- Recognition runs locally with [whisper.cpp](https://github.com/ggml-org/whisper.cpp) from
+  `%LOCALAPPDATA%\Jarvis\whisper`. Voices never leave your PC and are never saved.
+- Only the sentence after the wake word goes to the AI.
+- Friends only get answers and lookups. Commands, chat, your inventory and your position are locked for them, even
+  if the AI tries.
+- Tell your friends beforehand that Jarvis is listening.
 
-## Stimmen
+## Voices
 
-Die Stimmen laufen lokal mit [Piper](https://github.com/rhasspy/piper) und sind auf Deutsch trainiert. Es gibt
-kein Limit, und nichts geht dafür ins Internet. Piper und die Stimmen liegen in `%LOCALAPPDATA%\Jarvis\piper`.
-Ohne diesen Ordner nutzt Jarvis eine Cloud-Stimme.
+The voices run locally with [Piper](https://github.com/rhasspy/piper) and are trained on German. There's no limit and
+nothing goes to the internet. Piper and the voices live in `%LOCALAPPDATA%\Jarvis\piper`. Without that folder, Jarvis
+uses a cloud voice.
 
 ## Kistenbuch
 
-Ist die Mod Kistenbuch installiert, findet Jarvis deine Items: `Jarvis wo sind meine Diamanten?` oder
-`Jarvis markier die Kiste mit dem Eisen`. Das gilt nur für dich. Freunde im Voicechat haben keinen Zugriff darauf.
+If the Kistenbuch mod is installed, Jarvis finds your items: `Jarvis wo sind meine Diamanten?` (where are my
+diamonds?) or `Jarvis markier die Kiste mit dem Eisen` (mark the chest with the iron). This only works for you.
+Friends in voice chat have no access to it.
 
-## Grenzen
+## Limits
 
-- Was du fragst und dein Inventar gehen an den KI-Dienst, Suchbegriffe an DuckDuckGo.
-- Vor riskanten Commands soll die KI nachfragen. Das ist eine Anweisung, keine feste Sperre.
-- Im Voicechat klingt Jarvis für andere, als käme es von dir.
-- Die Spracheingabe läuft über den eingestellten KI-Dienst und braucht deshalb Internet.
-- Manche Server erlauben keine automatischen Commands. Lies vorher die Regeln.
+- What you ask and your inventory go to the AI service, search terms go to DuckDuckGo.
+- The AI is told to ask before risky commands. That's an instruction, not a hard lock.
+- In voice chat, Jarvis sounds to others as if it came from you.
+- Voice input runs through the configured AI service and therefore needs internet.
+- Some servers don't allow automated commands. Check the rules first.
 
-## Bauen und testen
+## Building and testing
 
-Die Simple-Voice-Chat-API wird nur zum Kompilieren gebraucht und liegt nicht im Repository. Lade
-`voicechat-api-2.6.27.jar` herunter und leg sie nach `libs/`. Dann:
+The Simple Voice Chat API is only needed to compile and isn't in the repository. Download
+`voicechat-api-2.6.27.jar` and put it into `libs/`. Then:
 
 ```bash
 ./gradlew build
 ./gradlew runClientGameTest
 ```
 
-Der Test startet einen echten Client und einen echten Server. `JARVIS_TEST_CONFIG` schaltet die echte KI dazu,
-`-PextraMods=<Mod-Ordner>` lädt Iris und Simple Voice Chat, und `JARVIS_TEST_SHADER` nennt ein Shader-Paket.
+The test starts a real client and a real server. `JARVIS_TEST_CONFIG` turns on the real AI,
+`-PextraMods=<mods folder>` loads Iris and Simple Voice Chat, and `JARVIS_TEST_SHADER` names a shader pack.
 
-## Lizenz
+## License
 
-MIT, siehe [LICENSE](LICENSE).
+MIT, see [LICENSE](LICENSE).

@@ -158,26 +158,31 @@ final class JarvisScreen extends Screen {
 
 	// ---- Einstellungen ----
 
+	/** Übersetzter Text. Die Texte stehen in assets/jarvis/lang. */
+	private static String t(String key, Object... args) {
+		return Component.translatable(key, args).getString();
+	}
+
 	private void buildPages() {
 		pages.clear();
-		pages.add(new Page("Allgemein", List.of(
+		pages.add(new Page(t("jarvis.menu.page.general"), List.of(
 				List.of(
-						toggle("Jarvis aktiv", "Schaltet Jarvis komplett ein oder aus. Aus heißt: Chat-Befehle und die Sprechtaste tun nichts.", () -> config.enabled, v -> config.enabled = v),
-						cycle("Aktivierungswort", "Das Wort, mit dem du Jarvis im Chat und deine Freunde ihn im Voicechat ansprechen.", WAKE_WORDS, v -> v, () -> config.wakeWord, v -> config.wakeWord = v)),
+						toggle(t("jarvis.menu.enabled"), t("jarvis.menu.enabled.tooltip"), () -> config.enabled, v -> config.enabled = v),
+						cycle(t("jarvis.menu.wake_word"), t("jarvis.menu.wake_word.tooltip"), WAKE_WORDS, v -> v, () -> config.wakeWord, v -> config.wakeWord = v)),
 				List.of(
-						cycle("Anrede", "Wie Jarvis dich anspricht.", ADDRESSES, v -> v.isEmpty() ? "Keine" : v, () -> config.address, v -> config.address = v),
-						cycle("Persönlichkeit", "Der Tonfall seiner Antworten.", List.of(0, 1, 2, 3, 4), v -> JarvisConfig.PERSONALITIES[v], () -> config.personality, v -> config.personality = v),
-						cycle("Antwortlänge", "Wie ausführlich Jarvis normalerweise antwortet.", List.of(0, 1, 2), v -> JarvisConfig.LENGTHS[v], () -> config.answerLength, v -> config.answerLength = v)),
+						cycle(t("jarvis.menu.address"), t("jarvis.menu.address.tooltip"), ADDRESSES, v -> v.isEmpty() ? t("jarvis.menu.address.none") : v, () -> config.address, v -> config.address = v),
+						cycle(t("jarvis.menu.personality"), t("jarvis.menu.personality.tooltip"), List.of(0, 1, 2, 3, 4), v -> t("jarvis.menu.personality." + v), () -> config.personality, v -> config.personality = v),
+						cycle(t("jarvis.menu.length"), t("jarvis.menu.length.tooltip"), List.of(0, 1, 2), v -> t("jarvis.menu.length." + v), () -> config.answerLength, v -> config.answerLength = v)),
 				List.of(
-						toggle("Eingabe im Chat zeigen", "Zeigt deine Frage noch einmal im Chat an, nur für dich sichtbar.", () -> config.echoInput, v -> config.echoInput = v),
-						toggle("\"Ich höre zu\" anzeigen", "Meldet im Chat, wenn die Sprechtaste aufnimmt.", () -> config.showListening, v -> config.showListening = v)))));
+						toggle(t("jarvis.menu.echo"), t("jarvis.menu.echo.tooltip"), () -> config.echoInput, v -> config.echoInput = v),
+						toggle(t("jarvis.menu.listening"), t("jarvis.menu.listening.tooltip"), () -> config.showListening, v -> config.showListening = v)))));
 
 		List<Piper.VoiceInfo> voices = Piper.installedVoices();
 		List<Row> voiceRows = new ArrayList<>();
 		if (voices.isEmpty()) {
-			voiceRows.add(info("Sprecher", "Keine lokalen Stimmen gefunden. Jarvis nutzt deshalb die Cloud-Stimme.", () -> "Cloud"));
+			voiceRows.add(info(t("jarvis.menu.speaker"), t("jarvis.menu.speaker.none.tooltip"), () -> "Cloud"));
 		} else {
-			voiceRows.add(cycle("Sprecher", "Lokale deutsche Stimme. Läuft auf deinem PC, ohne Limit. Ein Klick wechselt zum nächsten Sprecher und spielt ihn gleich ab.",
+			voiceRows.add(cycle(t("jarvis.menu.speaker"), t("jarvis.menu.speaker.tooltip"),
 					voices.stream().map(Piper.VoiceInfo::id).toList(),
 					id -> voices.stream().filter(v -> v.id().equals(id)).map(Piper.VoiceInfo::name).findFirst().orElse("?"),
 					() -> config.ttsVoice, v -> {
@@ -185,52 +190,52 @@ final class JarvisScreen extends Screen {
 						assistant.testVoice();
 					}));
 		}
-		voiceRows.add(action("Stimme testen", "Spielt eine kurze Probe ab, auch im Voicechat, wenn er eingeschaltet ist.", assistant::testVoice));
-		pages.add(new Page("Stimme", List.of(voiceRows,
+		voiceRows.add(action(t("jarvis.menu.test_voice"), t("jarvis.menu.test_voice.tooltip"), assistant::testVoice));
+		pages.add(new Page(t("jarvis.menu.page.voice"), List.of(voiceRows,
 				List.of(
-						slider("Lautstärke", "Wie laut du Jarvis hörst.", 10, 100, 5, "%", () -> config.volume, v -> config.volume = v),
-						slider("Sprechtempo", "Wie schnell Jarvis spricht.", 70, 150, 5, "%", () -> config.speechSpeed, v -> config.speechSpeed = v)),
+						slider(t("jarvis.menu.volume"), t("jarvis.menu.volume.tooltip"), 10, 100, 5, "%", () -> config.volume, v -> config.volume = v),
+						slider(t("jarvis.menu.speed"), t("jarvis.menu.speed.tooltip"), 70, 150, 5, "%", () -> config.speechSpeed, v -> config.speechSpeed = v)),
 				List.of(
-						cycle("Antworten vorlesen", "Wann Jarvis laut antwortet: nur auf gesprochene Fragen, immer oder nie.",
+						cycle(t("jarvis.menu.speak"), t("jarvis.menu.speak.tooltip"),
 								List.of(JarvisConfig.SPEAK_ON_VOICE, JarvisConfig.SPEAK_ALWAYS, JarvisConfig.SPEAK_NEVER),
-								v -> v == JarvisConfig.SPEAK_ALWAYS ? "Immer" : v == JarvisConfig.SPEAK_NEVER ? "Nie" : "Wenn ich spreche",
+								v -> v == JarvisConfig.SPEAK_ALWAYS ? t("jarvis.menu.speak.always") : v == JarvisConfig.SPEAK_NEVER ? t("jarvis.menu.speak.never") : t("jarvis.menu.speak.on_voice"),
 								() -> config.speakMode, v -> config.speakMode = v)))));
 
-		pages.add(new Page("KI", List.of(
+		pages.add(new Page(t("jarvis.menu.page.ai"), List.of(
 				List.of(
-						toggle("KI verwenden", "Aus heißt: Jarvis versteht nur noch feste Befehle wie /home.", () -> config.useAi, v -> config.useAi = v),
-						cycle("Modell", "Das erste Modell, das gefragt wird. Fällt es aus, übernimmt automatisch ein anderes.", MODELS, v -> v, () -> config.model, v -> config.model = v),
-						slider("Reserve starten nach", "Wenn das Modell so lange nicht antwortet, läuft parallel das nächste los. Kürzer ist schneller, verbraucht aber mehr vom Limit.", 500, 3000, 100, " ms", () -> config.hedgeMillis, v -> config.hedgeMillis = v)),
+						toggle(t("jarvis.menu.use_ai"), t("jarvis.menu.use_ai.tooltip"), () -> config.useAi, v -> config.useAi = v),
+						cycle(t("jarvis.menu.model"), t("jarvis.menu.model.tooltip"), MODELS, v -> v, () -> config.model, v -> config.model = v),
+						slider(t("jarvis.menu.hedge"), t("jarvis.menu.hedge.tooltip"), 500, 3000, 100, " ms", () -> config.hedgeMillis, v -> config.hedgeMillis = v)),
 				List.of(
-						toggle("Websuche", "Jarvis darf für aktuelle Fragen im Internet suchen.", () -> config.allowWebSearch, v -> config.allowWebSearch = v),
-						slider("Gedächtnis", "Wie viele Nachrichten Jarvis sich merkt. 0 heißt: Jede Frage steht für sich.", 0, 30, 2, "", () -> config.memorySize, v -> config.memorySize = v),
-						action("Gedächtnis löschen", "Vergisst das bisherige Gespräch.", assistant::clearMemory)),
+						toggle(t("jarvis.menu.web"), t("jarvis.menu.web.tooltip"), () -> config.allowWebSearch, v -> config.allowWebSearch = v),
+						slider(t("jarvis.menu.memory"), t("jarvis.menu.memory.tooltip"), 0, 30, 2, "", () -> config.memorySize, v -> config.memorySize = v),
+						action(t("jarvis.menu.clear_memory"), t("jarvis.menu.clear_memory.tooltip"), assistant::clearMemory)),
 				List.of(
-						info("Letzte Antwort", "Wie lange die letzte Antwort gedauert hat.", () -> assistant.lastReplyMillis() == 0 ? "-" : String.format("%.1f s", assistant.lastReplyMillis() / 1000.0)),
-						info("Antwortendes Modell", "Das Modell, das zuletzt geantwortet hat.", () -> assistant.lastModel().isEmpty() ? "-" : assistant.lastModel())))));
+						info(t("jarvis.menu.last_reply"), t("jarvis.menu.last_reply.tooltip"), () -> assistant.lastReplyMillis() == 0 ? "-" : String.format("%.1f s", assistant.lastReplyMillis() / 1000.0)),
+						info(t("jarvis.menu.last_model"), t("jarvis.menu.last_model.tooltip"), () -> assistant.lastModel().isEmpty() ? "-" : assistant.lastModel())))));
 
-		pages.add(new Page("Rechte", List.of(
+		pages.add(new Page(t("jarvis.menu.page.permissions"), List.of(
 				List.of(
-						toggle("Commands senden", "Jarvis darf Commands wie /home senden. Fehlen dir auf dem Server die Rechte, sperrt er Op-Commands von selbst.", () -> config.allowCommands, v -> config.allowCommands = v),
-						toggle("Im Chat schreiben", "Jarvis darf öffentliche Nachrichten als du schreiben, wenn du das verlangst.", () -> config.allowChat, v -> config.allowChat = v)),
+						toggle(t("jarvis.menu.commands"), t("jarvis.menu.commands.tooltip"), () -> config.allowCommands, v -> config.allowCommands = v),
+						toggle(t("jarvis.menu.chat"), t("jarvis.menu.chat.tooltip"), () -> config.allowChat, v -> config.allowChat = v)),
 				List.of(
-						toggle("Kistenbuch nutzen", "Jarvis darf nachschlagen, wo deine Items liegen, und Kisten markieren. Das gilt nur für dich, nie für Freunde im Voicechat.", () -> config.allowChestBook, v -> config.allowChestBook = v),
-						toggle("Shader schalten", "Jarvis darf Iris-Shader wechseln.", () -> config.allowShaders, v -> config.allowShaders = v),
-						toggle("Server wechseln", "Jarvis darf die aktuelle Welt verlassen und einen anderen Server betreten.", () -> config.allowServerSwitch, v -> config.allowServerSwitch = v)))));
+						toggle(t("jarvis.menu.chestbook"), t("jarvis.menu.chestbook.tooltip"), () -> config.allowChestBook, v -> config.allowChestBook = v),
+						toggle(t("jarvis.menu.shaders"), t("jarvis.menu.shaders.tooltip"), () -> config.allowShaders, v -> config.allowShaders = v),
+						toggle(t("jarvis.menu.servers"), t("jarvis.menu.servers.tooltip"), () -> config.allowServerSwitch, v -> config.allowServerSwitch = v)))));
 
 		BooleanSupplier listening = () -> config.listenToFriends;
-		pages.add(new Page("Voicechat", List.of(
+		pages.add(new Page(t("jarvis.menu.page.voicechat"), List.of(
 				List.of(
-						toggle("Im Voicechat hörbar", "Andere hören Jarvis über deinen Sprachkanal, wenn du verbunden und nicht stumm bist.", () -> config.voicechatBroadcast, v -> config.voicechatBroadcast = v),
-						slider("Lautstärke im Voicechat", "Wie laut andere Jarvis hören.", 10, 100, 5, "%", () -> config.voicechatVolume, v -> config.voicechatVolume = v).when(() -> config.voicechatBroadcast),
-						info("Status", "Ob Jarvis gerade in den Voicechat sprechen kann.", () -> VoiceBridge.canSend() ? "Bereit" : "Stumm oder getrennt")),
+						toggle(t("jarvis.menu.broadcast"), t("jarvis.menu.broadcast.tooltip"), () -> config.voicechatBroadcast, v -> config.voicechatBroadcast = v),
+						slider(t("jarvis.menu.vc_volume"), t("jarvis.menu.vc_volume.tooltip"), 10, 100, 5, "%", () -> config.voicechatVolume, v -> config.voicechatVolume = v).when(() -> config.voicechatBroadcast),
+						info(t("jarvis.menu.status"), t("jarvis.menu.status.tooltip"), () -> VoiceBridge.canSend() ? t("jarvis.menu.status.ready") : t("jarvis.menu.status.muted"))),
 				List.of(
-						toggle("Freunden zuhören", "Jarvis reagiert, wenn jemand im Voicechat sein Aktivierungswort sagt. Dafür erkennt er lokal auf deinem PC, was gesprochen wird. Nichts wird gespeichert, nur der Satz nach dem Wort geht an die KI. Sag deinen Freunden vorher Bescheid. Freunde bekommen nur Antworten, nie Commands.", () -> config.listenToFriends, v -> config.listenToFriends = v),
-						cycle("Wer darf fragen", "Alle in Hörweite oder nur Leute in deiner Voicechat-Gruppe.", List.of(false, true), v -> v ? "Nur meine Gruppe" : "Alle", () -> config.friendsOnlyGroup, v -> config.friendsOnlyGroup = v).when(listening),
-						slider("Pause zwischen Antworten", "Mindestabstand zwischen zwei Antworten an Freunde, gegen Spam.", 0, 60, 5, " s", () -> config.friendCooldown, v -> config.friendCooldown = v).when(listening),
-						new Toggle("Fragen im Chat zeigen", "Zeigt dir im Chat, wer was gefragt hat.", () -> config.showFriendRequests, v -> config.showFriendRequests = v).when(listening),
-						info("Erkennung", "Zustand der lokalen Spracherkennung.", () -> JarvisMod.friends == null ? "-" : JarvisMod.friends.status()).when(listening),
-						info("Dauer der Erkennung", "Wie lange die lokale Spracherkennung zuletzt gebraucht hat.", () -> JarvisMod.friends == null || JarvisMod.friends.lastRecognitionMillis() == 0 ? "-" : String.format("%.1f s", JarvisMod.friends.lastRecognitionMillis() / 1000.0)).when(listening)))));
+						toggle(t("jarvis.menu.friends"), t("jarvis.menu.friends.tooltip"), () -> config.listenToFriends, v -> config.listenToFriends = v),
+						cycle(t("jarvis.menu.who"), t("jarvis.menu.who.tooltip"), List.of(false, true), v -> v ? t("jarvis.menu.who.group") : t("jarvis.menu.who.all"), () -> config.friendsOnlyGroup, v -> config.friendsOnlyGroup = v).when(listening),
+						slider(t("jarvis.menu.cooldown"), t("jarvis.menu.cooldown.tooltip"), 0, 60, 5, " s", () -> config.friendCooldown, v -> config.friendCooldown = v).when(listening),
+						new Toggle(t("jarvis.menu.show_requests"), t("jarvis.menu.show_requests.tooltip"), () -> config.showFriendRequests, v -> config.showFriendRequests = v).when(listening),
+						info(t("jarvis.menu.recognition"), t("jarvis.menu.recognition.tooltip"), () -> JarvisMod.friends == null ? "-" : JarvisMod.friends.status()).when(listening),
+						info(t("jarvis.menu.recognition_time"), t("jarvis.menu.recognition_time.tooltip"), () -> JarvisMod.friends == null || JarvisMod.friends.lastRecognitionMillis() == 0 ? "-" : String.format("%.1f s", JarvisMod.friends.lastRecognitionMillis() / 1000.0)).when(listening)))));
 	}
 
 	private Row toggle(String label, String tooltip, Supplier<Boolean> getter, Consumer<Boolean> setter) {
@@ -260,7 +265,7 @@ final class JarvisScreen extends Screen {
 		return new Row(label, tooltip) {
 			@Override
 			String value() {
-				return "Ausführen";
+				return t("jarvis.menu.run");
 			}
 
 			@Override
@@ -404,8 +409,8 @@ final class JarvisScreen extends Screen {
 
 	private void footer(int mx, int my) {
 		int y = height - MARGIN - ROW;
-		button("Fertig", width - MARGIN - BUTTON_WIDTH, y, mx, my, this::onClose);
-		button("Standard", width - MARGIN - BUTTON_WIDTH * 2 - 4, y, mx, my, () -> {
+		button(t("jarvis.menu.done"), width - MARGIN - BUTTON_WIDTH, y, mx, my, this::onClose);
+		button(t("jarvis.menu.defaults"), width - MARGIN - BUTTON_WIDTH * 2 - 4, y, mx, my, () -> {
 			config.resetToDefaults();
 			config.save();
 			buildPages();

@@ -25,6 +25,7 @@ import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.TitleScreen;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.phys.Vec3;
 
 /**
@@ -135,18 +136,19 @@ public class JarvisClientTest implements FabricClientGameTest {
 		ctx.setScreen(() -> screen);
 		ctx.waitTicks(30);
 		ctx.takeScreenshot("jarvis-menue-stimme");
-		check(ctx.computeOnClient(mc -> screen.press("Stimme")), "Seite Stimme");
+		check(ctx.computeOnClient(mc -> screen.press(Component.translatable("jarvis.menu.page.voice").getString())), "Seite Stimme");
 		ctx.waitTicks(5);
 		ctx.takeScreenshot("jarvis-menue-voice");
-		check(ctx.computeOnClient(mc -> screen.press("Stimme")), "Seite Stimme");
+		check(ctx.computeOnClient(mc -> screen.press(Component.translatable("jarvis.menu.page.voice").getString())), "Seite Stimme");
 		ctx.waitTicks(5);
-		boolean clicked = ctx.computeOnClient(mc -> screen.press("Sprechtempo") || true);
+		boolean clicked = ctx.computeOnClient(mc -> screen.press(Component.translatable("jarvis.menu.speed").getString()) || true);
 		check(clicked, "Menü reagiert");
 		System.out.println("[JarvisTest] OK Menü: Stimme jetzt " + JarvisMod.config.ttsVoice);
-		for (String page : new String[] {"Allgemein", "KI", "Rechte", "Voicechat"}) {
-			check(ctx.computeOnClient(mc -> screen.press(page)), "Seite " + page);
+		for (String[] page : new String[][] {{"general", "allgemein"}, {"ai", "ki"}, {"permissions", "rechte"}, {"voicechat", "voicechat"}}) {
+			String name = Component.translatable("jarvis.menu.page." + page[0]).getString();
+			check(ctx.computeOnClient(mc -> screen.press(name)), "Seite " + name);
 			ctx.waitTicks(10);
-			ctx.takeScreenshot("jarvis-menue-" + page.toLowerCase(Locale.ROOT));
+			ctx.takeScreenshot("jarvis-menue-" + page[1]);
 		}
 		JarvisMod.config.ttsVoice = before;
 		JarvisMod.config.save();
